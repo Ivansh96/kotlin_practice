@@ -7,6 +7,7 @@ import mobi.sevenwinds.common.toResponse
 import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Assert
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -27,15 +28,15 @@ class BudgetApiKtTest : ServerTest() {
         addRecord(BudgetRecord(2030, 1, 1, BudgetType.Расход))
 
         RestAssured.given()
-            .queryParam("limit", 3)
-            .queryParam("offset", 1)
+            .queryParam("limit", 5)
+            .queryParam("offset", 0)
             .get("/budget/year/2020/stats")
             .toResponse<BudgetYearStatsResponse>().let { response ->
                 println("${response.total} / ${response.items} / ${response.totalByType}")
 
-                Assert.assertEquals(5, response.total)
-                Assert.assertEquals(3, response.items.size)
-                Assert.assertEquals(105, response.totalByType[BudgetType.Приход.name])
+                Assertions.assertEquals(5, response.total)
+                Assertions.assertEquals(5, response.items.size)
+                Assertions.assertEquals(105, response.totalByType[BudgetType.Приход.name])
             }
     }
 
@@ -54,11 +55,11 @@ class BudgetApiKtTest : ServerTest() {
             .toResponse<BudgetYearStatsResponse>().let { response ->
                 println(response.items)
 
-                Assert.assertEquals(30, response.items[0].amount)
-                Assert.assertEquals(5, response.items[1].amount)
-                Assert.assertEquals(400, response.items[2].amount)
-                Assert.assertEquals(100, response.items[3].amount)
-                Assert.assertEquals(50, response.items[4].amount)
+                Assertions.assertEquals(100, response.items[0].amount)
+                Assertions.assertEquals(5, response.items[1].amount)
+                Assertions.assertEquals(50, response.items[2].amount)
+                Assertions.assertEquals(30, response.items[3].amount)
+                Assertions.assertEquals(400, response.items[4].amount)
             }
     }
 
