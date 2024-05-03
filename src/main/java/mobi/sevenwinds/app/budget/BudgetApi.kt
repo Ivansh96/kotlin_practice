@@ -50,5 +50,5 @@ class BudgetYearStatsResponse(
 )
 
 enum class BudgetType {
-    Приход, Расход, Комиссия
+    Приход, Расход,
 }
